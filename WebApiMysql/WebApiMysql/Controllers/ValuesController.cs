@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebApiMysql.Util;
+
 
 namespace WebApiMysql.Controllers
 {
@@ -14,6 +17,11 @@ namespace WebApiMysql.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            DAL objDAL = new DAL();
+            /*string sql = "INSERT INTO cliente(nome, data_cadastro, cpf_cnpj, data_nascimento, tipo, telefone, email, cep, logradouro, numero, bairro, cidade, uf) VALUES('Christovam', '2019/05/19', '07537405832', '1967/10/05', 'f', '55612261', 'chris@chris.com', '04610060', 'ria um', '123', 'moema', 'São Paulo', 'sp')";
+            objDAL.ExecutarComandoSQL(sql);
+            */
+
             return new string[] { "value1", "value2" };
         }
 
@@ -21,7 +29,10 @@ namespace WebApiMysql.Controllers
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            return "value";
+            DAL objDAL = new DAL();
+            string sql = $"SELECT * FROM Cliente where id={id}";
+            DataTable dados = objDAL.RetornarDataTable(sql);
+            return dados.Rows[0]["Nome"].ToString();
         }
 
         // POST api/values
